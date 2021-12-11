@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET /recetas controllers.HomeController.getAllRecipes()
+
+GET /receta/:query controllers.HomeController.getRecipe( query )
+
+POST /recetas controllers.HomeController.createRecipe( request: Request )
+
+PATCH /receta/:id controllers.HomeController.updateRecipe( id, request: Request )
+
+DELETE /receta/:id controllers.HomeController.deleteRecipe( id )
