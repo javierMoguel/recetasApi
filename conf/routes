@@ -7,6 +7,7 @@ GET /recetas controllers.HomeController.getAllRecipes()
 GET /receta/:query controllers.HomeController.getRecipe( query )
 
 POST /recetas controllers.HomeController.createRecipe( request: Request )
+# curl -X POST -H "Content-Type: application/json" --data '{"name": "Pollo al chilindron", "pasos": {"pasos" :"paso1, 2 3"}}' "localhost:9000/recetas"
 
 PATCH /receta/:id controllers.HomeController.updateRecipe( id, request: Request )
 

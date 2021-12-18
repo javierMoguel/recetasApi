@@ -1,20 +1,18 @@
-package model;
+package models;
 
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 
-public class RecipesModel extends Model{
+public class Recipes extends Model{
 
-    public static final Finder<Long, RecipesModel> find = new Finder<>(RecipesModel.class);
+    public static final Finder<Long, Recipes> find = new Finder<>(Recipes.class);
 
     @Id
     private Long id;
@@ -28,7 +26,19 @@ public class RecipesModel extends Model{
     @WhenModified
     private Timestamp whenModified;
 
-    String name;
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Steps pasos;
+
+    public Steps getPasos() {
+        return pasos;
+    }
+
+    public void setPasos(Steps pasos) {
+        pasos.setParentRecipe(this);
+        this.pasos = pasos;
+    }
 
     public Long getId() {
         return id;
@@ -69,5 +79,27 @@ public class RecipesModel extends Model{
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        if( obj == null ) {
+            return false;
+        }
+        if( obj instanceof Recipes) {
+            Recipes objRecipe = (Recipes) obj;
+            if( objRecipe.getName() == null) {
+                return false;
+            } else {
+                return objRecipe.getName().equals( this.getName());
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static Recipes findRecipeById( Long id ) {
+        return find.byId(id);
+    }
+
 
 }
