@@ -1,11 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Rating;
 import models.Recipes;
 import models.Steps;
 import play.data.Form;
 import play.data.FormFactory;
-import play.i18n.Lang;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -36,7 +36,7 @@ public class HomeController extends Controller {
         JsonNode bodyRequest = request.body().asJson();
 
         if (bodyRequest == null){
-            return Results.status(400);
+            return Results.status(500);
         }
 
         Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
@@ -46,9 +46,15 @@ public class HomeController extends Controller {
 
         Recipes recipe = recipeForm.get();
         Steps step = new Steps();
-        //step.setPasos(recipeForm.field("pasos").value().toString());
         step.setPasos( bodyRequest.get("pasos").get("pasos").asText() );
         recipe.setPasos(step);
+
+        //if ( bodyRequest.get("ratings").get("rating") != null ){
+            Rating rating = new Rating();
+            rating.setRating(bodyRequest.get("ratings").get("rating").asText());
+            recipe.addRating(rating);
+        //}
+
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);

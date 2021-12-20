@@ -6,17 +6,14 @@ import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 
-public class Steps extends Model{
+public class Rating extends Model{
 
-    public static final Finder<Long, Steps> find = new Finder<>(Steps.class);
+    public static final Finder<Long, Rating> find = new Finder<>(Rating.class);
 
     @Id
     private Long id;
@@ -30,9 +27,9 @@ public class Steps extends Model{
     @WhenModified
     private Timestamp whenModified;
 
-    private String pasos;
+    private String rating;
 
-    @OneToOne(mappedBy = "pasos")
+    @ManyToOne
     @JsonBackReference
     private Recipes parentRecipe;
 
@@ -77,12 +74,12 @@ public class Steps extends Model{
         this.whenModified = whenModified;
     }
 
-    public String getPasos() {
-        return pasos;
+    public String getRating() {
+        return rating;
     }
 
-    public void setPasos(String pasos) {
-        this.pasos = pasos;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
 

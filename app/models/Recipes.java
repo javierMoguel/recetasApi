@@ -1,12 +1,17 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
+import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 
@@ -28,8 +33,41 @@ public class Recipes extends Model{
 
     private String name;
 
+    private String time;
+
+    private String type;
+
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Steps pasos;
+
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "parentRecipe")
+    @JsonManagedReference
+    private List<Rating> ratings = new ArrayList<>();
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
 
     public Steps getPasos() {
         return pasos;
@@ -38,6 +76,11 @@ public class Recipes extends Model{
     public void setPasos(Steps pasos) {
         pasos.setParentRecipe(this);
         this.pasos = pasos;
+    }
+
+    public void addRating( Rating rating) {
+        this.ratings.add(rating);
+        rating.setParentRecipe(this);
     }
 
     public Long getId() {
