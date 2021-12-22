@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Finder;
 import io.ebean.Model;
@@ -44,6 +45,10 @@ public class Recipes extends Model{
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "parentRecipe")
     @JsonManagedReference
     private List<Rating> ratings = new ArrayList<>();
+
+    @JsonManagedReference
+    @ManyToMany( cascade = CascadeType.ALL )
+    public List<Ingredients> ingredients = new ArrayList<Ingredients>();
 
     public String getTime() {
         return time;
@@ -121,6 +126,14 @@ public class Recipes extends Model{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Ingredients> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredients> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override

@@ -33,27 +33,12 @@ public class HomeController extends Controller {
 
     public Result createRecipe( Http.Request request ) {
 
-        JsonNode bodyRequest = request.body().asJson();
-
-        if (bodyRequest == null){
-            return Results.status(500);
-        }
-
         Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
         if( recipeForm.hasErrors()) {
             return Results.notAcceptable(recipeForm.errorsAsJson());
         }
 
         Recipes recipe = recipeForm.get();
-        Steps step = new Steps();
-        step.setPasos( bodyRequest.get("pasos").get("pasos").asText() );
-        recipe.setPasos(step);
-
-        //if ( bodyRequest.get("ratings").get("rating") != null ){
-            Rating rating = new Rating();
-            rating.setRating(bodyRequest.get("ratings").get("rating").asText());
-            recipe.addRating(rating);
-        //}
 
         recipe.save();
 
