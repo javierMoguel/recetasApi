@@ -1,0 +1,11 @@
+@( name: String, time: String, category: String, pasos: Steps, ratings: List[Rating], ingredients: List[Ingredients])
+
+    <?xml version="1.0" encoding="UTF-8" ?>
+    <Receta>
+        <name>@(name)</name>
+        <time>@(time)</time>
+        <category>@(category)</category>
+        <ingredients>@(ingredients)</ingredients>
+        <pasos>@(pasos.getPasos())</pasos>
+        <ratings>@(ratings.size())</ratings>
+    </Receta>

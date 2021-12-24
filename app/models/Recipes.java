@@ -36,7 +36,7 @@ public class Recipes extends Model{
 
     private String time;
 
-    private String type;
+    private String category;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -58,12 +58,12 @@ public class Recipes extends Model{
         this.time = time;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public List<Rating> getRatings() {

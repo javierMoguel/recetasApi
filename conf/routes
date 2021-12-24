@@ -2,9 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET /recetas controllers.HomeController.getAllRecipes()
+GET /recetas controllers.HomeController.getAllRecipes( request: Request )
 
-GET /receta/:query controllers.HomeController.getRecipe( query )
+GET /receta/:query controllers.HomeController.getRecipe( request: Request, query )
 
 POST /recetas controllers.HomeController.createRecipe( request: Request )
 # curl -X POST -H "Content-Type: application/json" --data '{"name": "Pollo al chilindron", "pasos": {"pasos" :"paso1, 2 3"}, "ratings": {"rating" : "1"}}' "localhost:9000/recetas"

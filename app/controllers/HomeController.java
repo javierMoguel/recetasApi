@@ -8,6 +8,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
+import play.twirl.api.Content;
 
 import javax.inject.Inject;
 
@@ -21,14 +22,35 @@ public class HomeController extends Controller {
     @Inject
     FormFactory formFactory;
 
-    public Result getAllRecipes() {
+    public Result getAllRecipes( Http.Request request ) {
 
-        return ok( "Todas las recetas" );
+        if( request.accepts("application/xml")){
+            //Content content = views.xml.recipes.render("hola", "hola", "hola", "hola", "hola", "hola");
+            return ok("content");
+        } else if ( request.accepts("application/json")) {
+            //Content content = views.xml.recipes.render("hola", "hola", "hola", "hola", "hola","hola");
+            return ok("content");
+        } else {
+            return ok("bad request");
+        }
+
     }
 
-    public Result getRecipe( String query ) {
+    public Result getRecipe( Http.Request request, String query ) {
 
-        return ok( "Una receta" );
+        Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(query) );
+
+        if( request.accepts("application/xml")){
+            Content content = views.xml.recipes.render(
+                    singleReceta.getName(), singleReceta.getTime(), singleReceta.getCategory(), singleReceta.getPasos(),
+                    singleReceta.getRatings(), singleReceta.getIngredients());
+            return ok(content);
+        } else if ( request.accepts("application/json")) {
+            return ok("content");
+        } else {
+            return ok("bad request");
+        }
+
     }
 
     public Result createRecipe( Http.Request request ) {
@@ -43,6 +65,7 @@ public class HomeController extends Controller {
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);
+
         return ok("Creada la receta " + node);
     }
 
@@ -55,6 +78,5 @@ public class HomeController extends Controller {
 
         return ok( "Eliminar" );
     }
-
 
 }
