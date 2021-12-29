@@ -25,10 +25,8 @@ public class HomeController extends Controller {
     public Result getAllRecipes( Http.Request request ) {
 
         if( request.accepts("application/xml")){
-            //Content content = views.xml.recipes.render("hola", "hola", "hola", "hola", "hola", "hola");
             return ok("content");
         } else if ( request.accepts("application/json")) {
-            //Content content = views.xml.recipes.render("hola", "hola", "hola", "hola", "hola","hola");
             return ok("content");
         } else {
             return ok("bad request");
@@ -61,6 +59,7 @@ public class HomeController extends Controller {
         }
 
         Recipes recipe = recipeForm.get();
+        System.out.println( recipeForm.field("ratings").value() );
 
         recipe.save();
 

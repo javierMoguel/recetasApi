@@ -5,7 +5,17 @@
         <name>@(name)</name>
         <time>@(time)</time>
         <category>@(category)</category>
-        <ingredients>@(ingredients)</ingredients>
+        <ingredients>
+            @for(ingredient <- ingredients) {
+             @_ingredient(ingredient)
+            }
+        </ingredients>
         <pasos>@(pasos.getPasos())</pasos>
-        <ratings>@(ratings.size())</ratings>
+        @if( ratings != null) {
+        <ratings>
+            @for( rating <- ratings) {
+                @_rating(rating)
+            }
+        </ratings>
+        }
     </Receta>

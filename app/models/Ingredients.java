@@ -30,6 +30,17 @@ public class Ingredients extends Model{
     @WhenModified
     private Timestamp whenModified;
 
+    String ingredient;
+
+
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
     @JsonBackReference
     @ManyToMany( mappedBy = "ingredients" )
     public List<Recipes> recipes;
