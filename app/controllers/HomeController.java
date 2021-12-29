@@ -44,7 +44,9 @@ public class HomeController extends Controller {
                     singleReceta.getRatings(), singleReceta.getIngredients());
             return ok(content);
         } else if ( request.accepts("application/json")) {
-            return ok("content");
+            JsonNode node = Json.toJson(singleReceta);
+
+            return ok(node);
         } else {
             return ok("bad request");
         }
@@ -63,9 +65,18 @@ public class HomeController extends Controller {
 
         recipe.save();
 
-        JsonNode node = Json.toJson(recipe);
+        if( request.accepts("application/xml")){
+            Content content = views.xml.recipes.render(
+                    recipe.getName(), recipe.getTime(), recipe.getCategory(), recipe.getPasos(),
+                    recipe.getRatings(), recipe.getIngredients());
+            return ok(content);
+        } else if ( request.accepts("application/json")) {
+            JsonNode node = Json.toJson(recipe);
+            return ok(node);
+        } else {
+            return ok("bad request");
+        }
 
-        return ok("Creada la receta " + node);
     }
 
     public Result updateRecipe( String id, Http.Request request ) {
@@ -74,6 +85,7 @@ public class HomeController extends Controller {
     }
 
     public Result deleteRecipe( String id ) {
+        Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
 
         return ok( "Eliminar" );
     }
