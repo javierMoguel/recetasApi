@@ -11,6 +11,7 @@ import play.mvc.*;
 import play.twirl.api.Content;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -24,10 +25,14 @@ public class HomeController extends Controller {
 
     public Result getAllRecipes( Http.Request request ) {
 
+        List<Recipes> totalRecetas = Recipes.find.all( );
+
         if( request.accepts("application/xml")){
-            return ok("content");
+            Content content = views.xml.recipes.render(totalRecetas);
+            return ok(content);
         } else if ( request.accepts("application/json")) {
-            return ok("content");
+            JsonNode node = Json.toJson(totalRecetas);
+            return ok(node);
         } else {
             return ok("bad request");
         }
@@ -39,9 +44,7 @@ public class HomeController extends Controller {
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(query) );
 
         if( request.accepts("application/xml")){
-            Content content = views.xml.recipes.render(
-                    singleReceta.getName(), singleReceta.getTime(), singleReceta.getCategory(), singleReceta.getPasos(),
-                    singleReceta.getRatings(), singleReceta.getIngredients());
+            Content content = views.xml.recipe.render(singleReceta);
             return ok(content);
         } else if ( request.accepts("application/json")) {
             JsonNode node = Json.toJson(singleReceta);
@@ -66,9 +69,7 @@ public class HomeController extends Controller {
         recipe.save();
 
         if( request.accepts("application/xml")){
-            Content content = views.xml.recipes.render(
-                    recipe.getName(), recipe.getTime(), recipe.getCategory(), recipe.getPasos(),
-                    recipe.getRatings(), recipe.getIngredients());
+            Content content = views.xml.recipe.render(recipe);
             return ok(content);
         } else if ( request.accepts("application/json")) {
             JsonNode node = Json.toJson(recipe);

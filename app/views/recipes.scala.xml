@@ -1,21 +1,8 @@
-@( name: String, time: String, category: String, pasos: Steps, ratings: List[Rating], ingredients: List[Ingredients])
+@( recetas: List[Recipes])
 
     <?xml version="1.0" encoding="UTF-8" ?>
-    <Receta>
-        <name>@(name)</name>
-        <time>@(time)</time>
-        <category>@(category)</category>
-        <ingredients>
-            @for(ingredient <- ingredients) {
-             @_ingredient(ingredient)
-            }
-        </ingredients>
-        <pasos>@(pasos.getPasos())</pasos>
-        @if( ratings != null) {
-        <ratings>
-            @for( rating <- ratings) {
-                @_rating(rating)
-            }
-        </ratings>
+    <Recetas>
+        @for( receta <- recetas) {
+            @_recipe(receta)
         }
-    </Receta>
+    </Recetas>

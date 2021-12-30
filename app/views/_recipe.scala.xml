@@ -1,0 +1,20 @@
+@( receta: Recipes)
+<Receta>
+
+<name>@(receta.getName())</name>
+<time>@(receta.getTime)</time>
+<category>@(receta.getCategory())</category>
+<ingredients>
+@for(ingredient <- receta.getIngredients()) {
+@_ingredient(ingredient)
+}
+</ingredients>
+<pasos>@(receta.getPasos().getPasos())</pasos>
+        @if( receta.getRatings() != null) {
+<ratings>
+@for( rating <- receta.getRatings()) {
+@_rating(rating)
+}
+</ratings>
+        }
+</Receta>
