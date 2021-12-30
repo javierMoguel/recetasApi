@@ -87,7 +87,14 @@ public class HomeController extends Controller {
     public Result deleteRecipe( String id ) {
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
 
-        return ok( "Eliminar" );
+        if ( singleReceta == null ) {
+            return Results.notFound("Esta receta no existe");
+        }
+
+        String name = singleReceta.getName();
+        singleReceta.delete();
+
+        return ok("Receta " + name + " eliminada");
     }
 
 }
