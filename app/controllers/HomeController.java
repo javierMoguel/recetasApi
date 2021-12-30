@@ -64,8 +64,6 @@ public class HomeController extends Controller {
         }
 
         Recipes recipe = recipeForm.get();
-        System.out.println( recipeForm.field("ratings").value() );
-
         recipe.save();
 
         if( request.accepts("application/xml")){
@@ -81,8 +79,46 @@ public class HomeController extends Controller {
     }
 
     public Result updateRecipe( String id, Http.Request request ) {
+        Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
+        if ( singleReceta == null ) {
+            return Results.notFound("Esta receta no existe");
+        }
+        Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
 
-        return ok( "Actualizar" );
+        if( recipeForm.hasErrors()) {
+            return Results.notAcceptable(recipeForm.errorsAsJson());
+        }
+
+        if (recipeForm.get().getName() != null ) {
+            singleReceta.setName( recipeForm.get().getName() );
+        }
+        if (recipeForm.get().getTime() != null ) {
+            singleReceta.setTime( recipeForm.get().getTime() );
+        }
+        if (recipeForm.get().getCategory() != null ) {
+            singleReceta.setCategory( recipeForm.get().getCategory() );
+        }
+        if (recipeForm.get().getRatings() != null ) {
+            singleReceta.setRatings( recipeForm.get().getRatings() );
+        }
+        if (recipeForm.get().getIngredients() != null ) {
+            singleReceta.setIngredients( recipeForm.get().getIngredients() );
+        }
+        if (recipeForm.get().getPasos() != null ) {
+            singleReceta.setPasos( recipeForm.get().getPasos() );
+        }
+        singleReceta.update();
+
+        if( request.accepts("application/xml")){
+            Content content = views.xml.recipe.render(singleReceta);
+            return ok(content);
+        } else if ( request.accepts("application/json")) {
+            JsonNode node = Json.toJson(singleReceta);
+            return ok(node);
+        } else {
+            return ok("bad request");
+        }
+
     }
 
     public Result deleteRecipe( String id ) {
