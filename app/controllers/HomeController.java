@@ -64,7 +64,7 @@ public class HomeController extends Controller {
         }
 
         Recipes recipe = recipeForm.get();
-        recipe.save();
+        recipe.checkRecipe();
 
         if( request.accepts("application/xml")){
             Content content = views.xml.recipe.render(recipe);

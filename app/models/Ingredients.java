@@ -1,15 +1,15 @@
 package models;
 
+import play.data.validation.Constraints.Required;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,8 +30,19 @@ public class Ingredients extends Model{
     @WhenModified
     private Timestamp whenModified;
 
+    @Required
     String ingredient;
 
+    @Required
+    String cantidad;
+
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public String getIngredient() {
         return ingredient;
@@ -106,5 +117,8 @@ public class Ingredients extends Model{
         return find.byId(id);
     }
 
-
+    public static Ingredients findIngredientByNameAndUnit(String name, String units) {
+        return find.query().where().isNotNull("ingredient").eq("ingredient", name)
+                .and().isNotNull("cantidad").eq("cantidad", units).findOne();
+    }
 }

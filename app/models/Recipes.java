@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Ebean;
 import play.data.validation.Constraints;
 import play.data.validation.Constraints.Required;
 import play.data.validation.Constraints.MaxLength;
@@ -168,6 +169,21 @@ public class Recipes extends Model{
         } else {
             return false;
         }
+    }
+
+    public void checkRecipe() {
+        List<Ingredients> i = this.ingredients;
+        Ingredients ing;
+        for (int j = 0; j < i.size(); j++) {
+
+            i.get(j).setIngredient(i.get(j).getIngredient());
+            i.get(j).setCantidad(i.get(j).getCantidad().toLowerCase());
+            ing = Ingredients.findIngredientByNameAndUnit(i.get(j).getIngredient(), i.get(j).getCantidad());
+            if (ing != null) {
+                i.set(j, ing);
+            }
+        }
+        this.save();
     }
 
     public static Recipes findRecipeById( Long id ) {
