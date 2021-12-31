@@ -1,6 +1,10 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.Pattern;
+import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Finder;
 import io.ebean.Model;
@@ -32,23 +36,36 @@ public class Recipes extends Model{
     @WhenModified
     private Timestamp whenModified;
 
+    @Required
+    @MaxLength(value = 40, message = "El tamaño máximo son 40 caracteres")
     private String name;
 
+    @Required
+    @Valid
+    @Pattern("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")
     private String time;
 
+    @Required
+    @Valid
     private String category;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
+    @Required
+    @Valid
     private Steps pasos;
 
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "parentRecipe")
     @JsonManagedReference
+    @Required
+    @Valid
     private List<Rating> ratings = new ArrayList<>();
 
     @JsonManagedReference
     @ManyToMany( cascade = CascadeType.ALL )
-    public List<Ingredients> ingredients = new ArrayList<Ingredients>();
+    @Required
+    @Valid
+    public List<Ingredients> ingredients = new ArrayList<>();
 
     public String getTime() {
         return time;
