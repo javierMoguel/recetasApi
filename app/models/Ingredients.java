@@ -6,7 +6,6 @@ import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -117,8 +116,8 @@ public class Ingredients extends Model{
         return find.byId(id);
     }
 
-    public static Ingredients findIngredientByNameAndUnit(String name, String units) {
+    public static Ingredients findIngredient(String name, String cantidad) {
         return find.query().where().isNotNull("ingredient").eq("ingredient", name)
-                .and().isNotNull("cantidad").eq("cantidad", units).findOne();
+                .and().isNotNull("cantidad").eq("cantidad", cantidad).findOne();
     }
 }

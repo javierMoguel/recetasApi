@@ -178,7 +178,7 @@ public class Recipes extends Model{
 
             i.get(j).setIngredient(i.get(j).getIngredient());
             i.get(j).setCantidad(i.get(j).getCantidad().toLowerCase());
-            ing = Ingredients.findIngredientByNameAndUnit(i.get(j).getIngredient(), i.get(j).getCantidad());
+            ing = Ingredients.findIngredient(i.get(j).getIngredient(), i.get(j).getCantidad());
             if (ing != null) {
                 i.set(j, ing);
             }
