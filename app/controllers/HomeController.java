@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.ebean.ExpressionList;
+import models.Ingredients;
 import models.Rating;
 import models.Recipes;
 import models.Steps;
@@ -39,9 +41,9 @@ public class HomeController extends Controller {
 
     }
 
-    public Result getRecipe( Http.Request request, String query ) {
+    public Result getRecipeById( Http.Request request, String id ) {
 
-        Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(query) );
+        Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
 
         if( request.accepts("application/xml")){
             Content content = views.xml.recipe.render(singleReceta);
@@ -132,6 +134,23 @@ public class HomeController extends Controller {
         singleReceta.delete();
 
         return ok("Receta " + name + " eliminada");
+    }
+
+    public Result searchByIng( Http.Request request, String query) {
+        List<Ingredients> ingredients = Ingredients.findByName( query );
+
+        List<Recipes> recipes = ingredients.get(0).getRecipes();
+
+        if( request.accepts("application/xml")){
+            Content content = views.xml.recipes.render(recipes);
+            return ok(content);
+        } else if ( request.accepts("application/json")) {
+            JsonNode node = Json.toJson(recipes);
+            return ok(node);
+        } else {
+            return ok("bad request");
+        }
+
     }
 
 }

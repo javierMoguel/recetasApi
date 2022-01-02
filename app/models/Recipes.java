@@ -1,7 +1,6 @@
 package models;
 
-import io.ebean.Ebean;
-import play.data.validation.Constraints;
+import io.ebean.ExpressionList;
 import play.data.validation.Constraints.Required;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.Pattern;
@@ -190,5 +189,8 @@ public class Recipes extends Model{
         return find.byId(id);
     }
 
+    public static List<Recipes> findByName(String name) {
+        return find.query().where().eq("ingredient", name).findList();
+    }
 
 }
