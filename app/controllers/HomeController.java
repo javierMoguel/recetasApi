@@ -150,7 +150,19 @@ public class HomeController extends Controller {
         } else {
             return ok("bad request");
         }
-
     }
 
+    public Result searchByCat( Http.Request request, String query ) {
+        List<Recipes> recipes = Recipes.findByCategory( query );
+
+        if( request.accepts("application/xml")){
+            Content content = views.xml.recipes.render(recipes);
+            return ok(content);
+        } else if ( request.accepts("application/json")) {
+            JsonNode node = Json.toJson(recipes);
+            return ok(node);
+        } else {
+            return ok("bad request");
+        }
+    }
 }

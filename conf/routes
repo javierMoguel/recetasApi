@@ -14,3 +14,5 @@ DELETE /receta/:id controllers.HomeController.deleteRecipe( id )
 GET /search/ingredients/:query controllers.HomeController.searchByIng( request: Request, query )
 
 GET /search/recetaById/:id controllers.HomeController.getRecipeById( request: Request, id )
+
+GET /search/categories/:query controllers.HomeController.searchByCat( request: Request, query )

@@ -189,8 +189,8 @@ public class Recipes extends Model{
         return find.byId(id);
     }
 
-    public static List<Recipes> findByName(String name) {
-        return find.query().where().eq("ingredient", name).findList();
+    public static List<Recipes> findByCategory(String name) {
+        return find.query().where().eq("category", name).findList();
     }
 
 }
