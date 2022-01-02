@@ -15,12 +15,16 @@ import play.twirl.api.Content;
 import javax.inject.Inject;
 import java.util.List;
 
+import play.i18n.Messages;
+
+
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class HomeController extends Controller {
 
+    private Messages messages;
 
     @Inject
     FormFactory formFactory;
@@ -36,7 +40,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(totalRecetas);
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
 
     }
@@ -53,7 +57,7 @@ public class HomeController extends Controller {
 
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
 
     }
@@ -75,7 +79,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(recipe);
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
 
     }
@@ -83,7 +87,7 @@ public class HomeController extends Controller {
     public Result updateRecipe( String id, Http.Request request ) {
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
         if ( singleReceta == null ) {
-            return Results.notFound("Esta receta no existe");
+            return ok(messages.at("recipeDoesntExist"));
         }
         Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
 
@@ -118,7 +122,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(singleReceta);
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
 
     }
@@ -127,13 +131,13 @@ public class HomeController extends Controller {
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
 
         if ( singleReceta == null ) {
-            return Results.notFound("Esta receta no existe");
+            return ok(messages.at("recipeDoesntExist"));
         }
 
         String name = singleReceta.getName();
         singleReceta.delete();
 
-        return ok("Receta " + name + " eliminada");
+        return ok(messages.at("recipe") + " " + name + " " + messages.at("deleted"));
     }
 
     public Result searchByIng( Http.Request request, String query) {
@@ -148,7 +152,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(recipes);
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
     }
 
@@ -162,7 +166,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(recipes);
             return ok(node);
         } else {
-            return ok("bad request");
+            return ok(messages.at("badRequest"));
         }
     }
 }
