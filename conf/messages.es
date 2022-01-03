@@ -8,4 +8,4 @@ ingredientDoesntExist = No existen recetas con este ingrediente
 
 categoryDoesntExist = Esta categoría no existe
 
-maxLength = El tamaño máximo son 40 caracteres;
+maxLength = El tamaño máximo son 40 caracteres

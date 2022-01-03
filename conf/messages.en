@@ -1,0 +1,11 @@
+badRequest = bad request
+
+recipeDoesntExist = This recipe does not exist
+recipe = Recipe
+deleted = deleted
+
+ingredientDoesntExist = This ingredient does not exist
+
+categoryDoesntExist = This category does not exist
+
+maxLength = The maximum size is 40 characters
