@@ -1,13 +1,12 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.ebean.ExpressionList;
 import models.Ingredients;
-import models.Rating;
 import models.Recipes;
-import models.Steps;
 import play.data.Form;
 import play.data.FormFactory;
+import play.i18n.Messages;
+import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.*;
 import play.twirl.api.Content;
@@ -15,7 +14,6 @@ import play.twirl.api.Content;
 import javax.inject.Inject;
 import java.util.List;
 
-import play.i18n.Messages;
 
 
 /**
@@ -24,13 +22,14 @@ import play.i18n.Messages;
  */
 public class HomeController extends Controller {
 
-    private Messages messages;
+    @Inject
+    MessagesApi messagesApi;
 
     @Inject
     FormFactory formFactory;
 
     public Result getAllRecipes( Http.Request request ) {
-
+        Messages messages = messagesApi.preferred(request);
         List<Recipes> totalRecetas = Recipes.find.all( );
 
         if( request.accepts("application/xml")){
@@ -40,15 +39,18 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(totalRecetas);
             return ok(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
 
     }
 
     public Result getRecipeById( Http.Request request, String id ) {
+        Messages messages = messagesApi.preferred(request);
 
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
-
+        if ( singleReceta == null ) {
+            return Results.notFound(messages.at("recipeDoesntExist"));
+        }
         if( request.accepts("application/xml")){
             Content content = views.xml.recipe.render(singleReceta);
             return ok(content);
@@ -57,12 +59,13 @@ public class HomeController extends Controller {
 
             return ok(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
 
     }
 
     public Result createRecipe( Http.Request request ) {
+        Messages messages = messagesApi.preferred(request);
 
         Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
         if( recipeForm.hasErrors()) {
@@ -74,20 +77,22 @@ public class HomeController extends Controller {
 
         if( request.accepts("application/xml")){
             Content content = views.xml.recipe.render(recipe);
-            return ok(content);
+            return Results.created(content);
         } else if ( request.accepts("application/json")) {
             JsonNode node = Json.toJson(recipe);
-            return ok(node);
+            return Results.created(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
 
     }
 
     public Result updateRecipe( String id, Http.Request request ) {
+        Messages messages = messagesApi.preferred(request);
+
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
         if ( singleReceta == null ) {
-            return ok(messages.at("recipeDoesntExist"));
+            return Results.notFound(messages.at("recipeDoesntExist"));
         }
         Form<Recipes> recipeForm = formFactory.form(Recipes.class).bindFromRequest(request);
 
@@ -122,16 +127,18 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(singleReceta);
             return ok(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
 
     }
 
-    public Result deleteRecipe( String id ) {
+    public Result deleteRecipe( Http.Request request, String id ) {
+        Messages messages = messagesApi.preferred(request);
+
         Recipes singleReceta = Recipes.findRecipeById( Long.valueOf(id) );
 
         if ( singleReceta == null ) {
-            return ok(messages.at("recipeDoesntExist"));
+            return Results.notFound(messages.at("recipeDoesntExist"));
         }
 
         String name = singleReceta.getName();
@@ -141,9 +148,13 @@ public class HomeController extends Controller {
     }
 
     public Result searchByIng( Http.Request request, String query) {
-        List<Ingredients> ingredients = Ingredients.findByName( query );
+        Messages messages = messagesApi.preferred(request);
 
-        List<Recipes> recipes = ingredients.get(0).getRecipes();
+        Ingredients ingredients = Ingredients.findByName( query );
+        if ( ingredients == null ) {
+            return Results.notFound(messages.at("ingredientDoesntExist"));
+        }
+        List<Recipes> recipes = ingredients.getRecipes();
 
         if( request.accepts("application/xml")){
             Content content = views.xml.recipes.render(recipes);
@@ -152,13 +163,17 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(recipes);
             return ok(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
     }
 
     public Result searchByCat( Http.Request request, String query ) {
-        List<Recipes> recipes = Recipes.findByCategory( query );
+        Messages messages = messagesApi.preferred(request);
 
+        List<Recipes> recipes = Recipes.findByCategory( query );
+        if ( recipes == null ) {
+            return Results.notFound(messages.at("categoryDoesntExist"));
+        }
         if( request.accepts("application/xml")){
             Content content = views.xml.recipes.render(recipes);
             return ok(content);
@@ -166,7 +181,7 @@ public class HomeController extends Controller {
             JsonNode node = Json.toJson(recipes);
             return ok(node);
         } else {
-            return ok(messages.at("badRequest"));
+            return Results.badRequest(messages.at("badRequest"));
         }
     }
 }

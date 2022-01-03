@@ -37,7 +37,7 @@ public class Recipes extends Model{
     private Timestamp whenModified;
 
     @Required
-    @MaxLength(value = 40, message = "El tamaño máximo son 40 caracteres")
+    @MaxLength(value = 40, message = "maxLength")
     private String name;
 
     @Required

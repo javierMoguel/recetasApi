@@ -9,7 +9,7 @@ POST /recetas controllers.HomeController.createRecipe( request: Request )
 
 PATCH /receta/:id controllers.HomeController.updateRecipe( id, request: Request )
 
-DELETE /receta/:id controllers.HomeController.deleteRecipe( id )
+DELETE /receta/:id controllers.HomeController.deleteRecipe( request: Request, id )
 
 GET /search/ingredients/:query controllers.HomeController.searchByIng( request: Request, query )
 

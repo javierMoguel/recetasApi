@@ -121,7 +121,7 @@ public class Ingredients extends Model{
                 .and().isNotNull("cantidad").eq("cantidad", cantidad).findOne();
     }
 
-    public static List<Ingredients> findByName(String name) {
-        return find.query().where().eq("ingredient", name).findList();
+    public static Ingredients findByName(String name) {
+        return find.query().where().eq("ingredient", name).findOne();
     }
 }
