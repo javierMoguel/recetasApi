@@ -4,7 +4,6 @@
 
 GET /recetas controllers.HomeController.getAllRecipes( request: Request )
 
-
 POST /recetas controllers.HomeController.createRecipe( request: Request )
 
 PATCH /receta/:id controllers.HomeController.updateRecipe( id, request: Request )

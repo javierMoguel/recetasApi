@@ -1,6 +1,7 @@
 badRequest = bad request
 
 recipeDoesntExist = Esta receta no existe
+recipesDoesntExist = Todavía no tenemos recetas en la base de datos
 recipe = Receta
 deleted = eliminada
 

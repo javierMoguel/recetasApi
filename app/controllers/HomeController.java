@@ -28,9 +28,14 @@ public class HomeController extends Controller {
     @Inject
     FormFactory formFactory;
 
+
     public Result getAllRecipes( Http.Request request ) {
         Messages messages = messagesApi.preferred(request);
         List<Recipes> totalRecetas = Recipes.find.all( );
+
+        if ( totalRecetas == null ) {
+            return Results.notFound(messages.at("recipesDoesntExist"));
+        }
 
         if( request.accepts("application/xml")){
             Content content = views.xml.recipes.render(totalRecetas);

@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.13/routes/main" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.13/twirl/main" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target/streams" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -55,7 +56,9 @@
     <orderEntry type="library" name="sbt: com.typesafe.play:build-link:2.8.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:filters-helpers_2.13:2.8.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-akka-http-server_2.13:2.8.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-cache_2.13:2.8.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-ebean_2.13:6.2.0-RC3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-ehcache_2.13:2.8.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-exceptions:2.8.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-functional_2.13:2.8.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-guice_2.13:2.8.8:jar" level="project" />
@@ -103,12 +106,14 @@
     <orderEntry type="library" name="sbt: jakarta.transaction:jakarta.transaction-api:1.3.3:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.validation:jakarta.validation-api:2.0.2:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.xml.bind:jakarta.xml.bind-api:2.3.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: javax.cache:cache-api:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.inject:javax.inject:1:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.xml.bind:jaxb-api:2.3.0:jar" level="project" />
     <orderEntry type="library" name="sbt: joda-time:joda-time:2.10.5:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: junit:junit:4.13.2:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: net.bytebuddy:byte-buddy:1.8.15:jar" level="project" />
     <orderEntry type="library" name="sbt: net.jodah:typetools:0.5.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: net.sf.ehcache:ehcache:2.10.6:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: net.sourceforge.htmlunit:htmlunit-core-js:2.36.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: net.sourceforge.htmlunit:htmlunit-cssparser:1.5.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: net.sourceforge.htmlunit:htmlunit:2.36.0:jar" level="project" />
@@ -131,6 +136,7 @@
     <orderEntry type="library" scope="TEST" name="sbt: org.eclipse.jetty:jetty-io:9.4.20.v20190813:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.eclipse.jetty:jetty-util:9.4.20.v20190813:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.eclipse.jetty:jetty-xml:9.4.20.v20190813:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.ehcache:jcache:1.0.1:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.fluentlenium:fluentlenium-core:3.7.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.glassfish.jaxb:jaxb-core:2.3.0.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.glassfish.jaxb:jaxb-runtime:2.3.2:jar" level="project" />
